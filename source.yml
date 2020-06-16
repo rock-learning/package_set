@@ -1,6 +1,8 @@
 name: rock.learning
 
 imports:
+    # for basic setup and osdeps definitions
+    - github: rock-core/package_set
     # includes helping libraries
     - github: rock-simulation/package_set
 
