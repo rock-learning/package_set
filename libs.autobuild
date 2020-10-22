@@ -1,9 +1,25 @@
-def learning_package(srcDir)
+def learning_package(baseDir, subDir = "")
+    baseDir.chomp!("/")
+
+    if subDir.empty?
+        srcDir = baseDir
+    else
+        srcDir = File.join(baseDir, subDir)
+        prefixDir = baseDir + "-submodule" + "/" + subDir
+    end
+
     if Gem::Version.new(Autobuild::VERSION) <= Gem::Version.new('1.7.2')
-        learning_path="learning/bolero/"
         cmake_package srcDir do |pkg|
             yield block if block_given?
-            pkg.srcdir = learning_path
+            pkg.srcdir = baseDir
+            pkg.prefix = prefixDir if prefixDir
+
+            if File.exist?(File.join(pkg.srcdir, "setup.py"))
+                bin, version, sitelib = Rock.activate_python_path(pkg)
+                pkg.define 'PYTHON_EXECUTABLE', bin if bin
+                pkg.define 'BINDINGS_PYTHON', bin
+            end
+
             pkg.post_import do
                 pkg.srcdir = srcDir
                 Autoproj.manifest.load_package_manifest(pkg.name)
@@ -11,24 +27,39 @@ def learning_package(srcDir)
         end
     else
         cmake_package srcDir do |pkg|
-            pkg.importdir = "learning/bolero/"
+            pkg.importdir = baseDir
+            pkg.prefix = prefixDir if prefixDir
+            if File.exist?(File.join(pkg.srcdir, "setup.py"))
+                bin, version, sitelib = Rock.activate_python_path(pkg)
+                pkg.define 'PYTHON_EXECUTABLE', bin if bin
+                pkg.define 'BINDINGS_PYTHON', bin
+            end
         end
+    end
+end
+
+def learning_bolero_package(dir)
+    if dir =~ /^learning\/bolero\/(.*)/
+        learning_package("learning/bolero", $1)
+    else
+        Autoproj.warn "Package #{dir} is not a bolero package " \
+            "(not found in learning/bolero subdirectory)"
     end
 end
 
 in_flavor 'master','next','stable' do
     cmake_package("tools/catch")
-    learning_package("learning/bolero/src/representation/promp")
-    learning_package("learning/bolero/bolero/wrapper")
-    learning_package("learning/bolero/include")
-    learning_package("learning/bolero/src/bl_loader")
-    learning_package("learning/bolero/src/controller")
-    learning_package("learning/bolero/src/optimizer/cmaes_optimizer")
-    learning_package("learning/bolero/src/optimizer/pso_optimizer")
-    learning_package("learning/bolero/src/environment/cec13_test_functions")
-    learning_package("learning/bolero/src/environment/function_approximation")
-    learning_package("learning/bolero/src/environment/mars_environment")
-    learning_package("learning/bolero/src/environment/mountain_car")
-    learning_package("learning/bolero/src/representation/dmp")
+    learning_bolero_package("learning/bolero/src/representation/promp")
+    learning_bolero_package("learning/bolero/bolero/wrapper")
+    learning_bolero_package("learning/bolero/include")
+    learning_bolero_package("learning/bolero/src/bl_loader")
+    learning_bolero_package("learning/bolero/src/controller")
+    learning_bolero_package("learning/bolero/src/optimizer/cmaes_optimizer")
+    learning_bolero_package("learning/bolero/src/optimizer/pso_optimizer")
+    learning_bolero_package("learning/bolero/src/environment/cec13_test_functions")
+    learning_bolero_package("learning/bolero/src/environment/function_approximation")
+    learning_bolero_package("learning/bolero/src/environment/mars_environment")
+    learning_bolero_package("learning/bolero/src/environment/mountain_car")
+    learning_bolero_package("learning/bolero/src/representation/dmp")
     learning_package("learning/bolero")
 end
