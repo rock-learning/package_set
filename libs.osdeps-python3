@@ -1,0 +1,23 @@
+python:
+    debian, ubuntu: [python3]
+
+python-numpy:
+    debian, ubuntu: [python3-numpy]
+
+python-scipy:
+    debian, ubuntu: [python3-scipy]
+
+python-matplotlib:
+    debian, ubuntu: [python3-matplotlib]
+
+python-sklearn:
+    debian, ubuntu: [python3-sklearn]
+
+python-nose:
+    debian, ubuntu: [python3-nose]
+
+python-dev:
+    debian, ubuntu: [python3-dev]
+
+cython:
+    debian, ubuntu: [cython3]
