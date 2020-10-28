@@ -5,7 +5,7 @@ def learning_package(baseDir, subDir = "")
         srcDir = baseDir
     else
         srcDir = File.join(baseDir, subDir)
-        prefixDir = baseDir + "-submodule" + "/" + subDir
+        prefixDir = baseDir + "-submodule" + "/" + subDir if Autoproj.config.separate_prefixes?
     end
 
     if Gem::Version.new(Autobuild::VERSION) <= Gem::Version.new('1.7.2')
