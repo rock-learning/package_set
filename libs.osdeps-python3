@@ -13,6 +13,9 @@ python-matplotlib:
 python-sklearn:
     debian, ubuntu: [python3-sklearn]
 
+python-sklearn-porter:
+    pip: [sklearn-porter]
+
 python-nose:
     debian, ubuntu: [python3-nose]
 
