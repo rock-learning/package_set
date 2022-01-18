@@ -1,26 +1,34 @@
 python:
     debian, ubuntu: [python3]
+    gentoo: ">=dev-lang/python-3"
 
 python-numpy:
     debian, ubuntu: [python3-numpy]
+    gentoo: dev-python/numpy
 
 python-scipy:
     debian, ubuntu: [python3-scipy]
+    gentoo: dev-python/scipy
 
 python-matplotlib:
     debian, ubuntu: [python3-matplotlib]
+    gentoo: dev-python/matplotlib
 
 python-sklearn:
     debian, ubuntu: [python3-sklearn]
+    gentoo: sci-libs/scikit-learn
 
 python-sklearn-porter:
     pip: [sklearn-porter]
 
 python-nose:
     debian, ubuntu: [python3-nose]
+    gentoo: dev-python/nose
 
 python-dev:
     debian, ubuntu: [python3-dev]
+    gentoo: dev-lang/python
 
 cython:
     debian, ubuntu: [cython3]
+    gentoo: dev-python/cython
