@@ -49,6 +49,7 @@ end
 
 in_flavor 'master','next','stable' do
     cmake_package("tools/catch")
+    remove_from_default 'tools/catch'
     learning_bolero_package("learning/bolero/src/representation/promp")
     learning_bolero_package("learning/bolero/bolero/wrapper")
     learning_bolero_package("learning/bolero/include")
